@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Author</key>
+  <string>Tobias Nurmiranta</string>
+  <key>Buffer Order</key>
+  <array>
+    <string>Main</string>
+    <string>Foo</string>
+  </array>
+  <key>Created</key>
+  <string>2012-04-30 11:13:47 +0000</string>
+  <key>Description</key>
+  <string>Example of using remote code</string>
+</dict>
+</plist>
