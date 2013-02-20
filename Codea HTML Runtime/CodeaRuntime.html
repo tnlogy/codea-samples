@@ -1,0 +1,71 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Codea Runtime</title>
+    <script type="text/javascript" src="lua+parser.js"></script>
+    <script type="text/javascript">
+      var counter = 0;
+
+      function run(luaCode) {
+          env = luaCode();
+          counter += 1;
+          var c = counter;
+
+          (function loop(){
+              if(c === counter) {
+                requestAnimationFrame(loop);
+              }
+              lua_rawset(env, "WIDTH", canvas.width);
+              lua_rawset(env, "HEIGHT", canvas.height);
+              lua_call(lua_tableget(env, "draw"))
+          })();
+      }
+    </script>
+    <style type="text/css">
+      body { margin: 20px; font-family: arial,verdana,helvetica; background: #fff;}
+      h1 { font-size: 140%; font-weight:normal; color: #036; border-bottom: 1px solid #ccc; }
+      canvas { border: 1px solid #888; float: left; margin-right: 20px; margin-bottom: 20px; }
+      form { float: left; display:block; background: rgb(238,238,238); border: 1px solid #888; padding: 15px 15px; margin: 0 0 7px 0; }
+      textarea { border: 1px solid #888; font-size:14px; padding: 5px 5px; margin: 0 0 7px 0; }
+      form, canvas, textarea { -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+      span.morespace { margin-left: 10px }
+    </style>
+  <body onload="run(lua_load(document.forms[0].inputbox.value))">
+    <canvas id="canvas" width="1024" height="768"></canvas>
+    <form>
+      <textarea rows="30" cols="120" name="inputbox">
+function setup()
+end
+
+function draw()
+    background(40, 40, 50)
+    for i = 1, 100 do
+        fill(0,0,200,0.5)
+        rect(math.random(0, WIDTH), math.random(0, HEIGHT), 50, 50)
+    end
+end
+
+-- Support functions --
+
+local canvas = document:getElementById("canvas")
+local ctx = canvas:getContext("2d")
+
+function fill(r, g, b, a)
+  a = a or 255
+  ctx.fillStyle = "rgba("..r..","..g..","..b..","..a..")"
+end
+function rect(x, y, w, h)
+  ctx:fillRect(x, y, w, h)
+end
+
+function background(r, g, b)
+  canvas.width = canvas.width
+  fill(r, g, b)
+  rect(0,0, canvas.width, canvas.height)
+end
+</textarea><br>
+      <input type="button" name="button" value="Draw" onclick="run(lua_load(this.form.inputbox.value))">
+      <span class="morespace" id="done">(0.001 seconds)</span>
+      <span class="morespace">Read the <a href="http://notebook.kulchenko.com/programming/drawing-on-browser-canvas-with-lua">description of how this was done</a></span>.
+    </form>
+  
+
+</body></html>
